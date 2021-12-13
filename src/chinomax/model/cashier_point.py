@@ -1,26 +1,13 @@
-import time
 import colorama
-from threading import RLock
 from asyncio import sleep, Lock
 from src.chinomax.model.cart import Cart
+from src.chinomax.model.cashier_point_base import CashierPointBase
 
 
-class CashierPoint:
+class CashierPoint(CashierPointBase):
     def __init__(self, name: str):
-        self.__name = name
-        self.__incomes = 0
-        self.__time = 0
+        super().__init__(name)
         self.__async_semaphore = Lock()
-        self.__multi_semaphore = RLock()
-
-    def get_name(self):
-        return self.__name
-
-    def get_incomes(self):
-        return self.__incomes
-
-    def get_time(self):
-        return self.__time
 
     async def pay_cart_async(self, cart: Cart):
         delay = cart.get_delayed_seconds()
@@ -28,18 +15,7 @@ class CashierPoint:
         async with self.__async_semaphore:
             await sleep(delay)
 
-            self.__incomes += cart.get_total_cart()
-            self.__time += delay
+            self.add_incomes(cart.get_total_cart())
+            self.add_time(delay)
 
-        print(colorama.Fore.YELLOW + f'Cart Id: {cart.get_id()} - Cashier Point: {self.__name} - Delayed: {delay}', flush=True)
-
-    def pay_cart_multi(self, cart: Cart):
-        delay = cart.get_delayed_seconds()
-
-        with self.__multi_semaphore:
-            time.sleep(10)
-
-            self.__incomes += cart.get_total_cart()
-            self.__time += delay
-
-        print(colorama.Fore.YELLOW + f'Cart Id: {cart.get_id()} - Cashier Point: {self.__name} - Delayed: {delay}', flush=True)
+        print(colorama.Fore.YELLOW + f'Cart Id: {cart.get_id()} - Cashier Point: {self.get_name()} - Delayed: {delay}', flush=True)
