@@ -3,11 +3,12 @@ import time
 import colorama
 import utils.messages as messages
 import utils.repository as repository
+from threading import current_thread
 from typing import List
 from datetime import datetime
 from model.supermarket import Supermarket
-from src.chinomax.model.cart import Cart
-from src.chinomax.model.cashier_point_base import CashierPointBase
+from model.cart import Cart
+from model.cashier_point_base import CashierPointBase
 
 super_market_name = 'ChinoMax'
 
@@ -44,15 +45,19 @@ def main():
 
 def pay_cart(cashier_point: CashierPointBase, carts: List[Cart]):
     current_process = multiprocessing.current_process()
+    thread_id = current_thread().ident
 
     for cart in carts:
         delay = cart.get_delayed_seconds()
 
         time.sleep(delay)
+
         cashier_point.add_incomes(cart.get_total_cart())
         cashier_point.add_time(delay)
 
-        print(colorama.Fore.YELLOW + f'Cart Id: {current_process.pid}-{cart.get_id()} - '
+        print(colorama.Fore.YELLOW + f'Process Id: {current_process.pid} - '
+                                     f'Thread Id: {thread_id} - '
+                                     f'Cart Id: {current_process.pid}-{cart.get_id()} - '
                                      f'Cashier Point: {cashier_point.get_name()} - '
                                      f'Delayed: {delay}', flush=True)
 

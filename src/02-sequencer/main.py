@@ -3,8 +3,8 @@ import colorama
 import multiprocessing
 from dotenv import load_dotenv
 from threading import Thread, current_thread
-from src.sequencer.model.sequencer import Sequencer
-from src.sequencer.utils.db_connection import DatabaseConnection
+from model.sequencer import Sequencer
+from utils.db_connection import DatabaseConnection
 
 load_dotenv()
 
@@ -14,7 +14,9 @@ def show_id(seq: Sequencer):
     thread_id = current_thread().ident
     current_id = seq.get_id()
 
-    print(colorama.Fore.YELLOW + f'Process Id: {current_process.pid} - Thread Id: {thread_id} - Current Id: {current_id}', flush=True)
+    print(colorama.Fore.YELLOW + f'Process Id: {current_process.pid} - '
+                                 f'Thread Id: {thread_id} - '
+                                 f'Current Id: {current_id}', flush=True)
 
 
 def main():
@@ -27,6 +29,8 @@ def main():
     db_conn = DatabaseConnection(db_driver, db_user, db_password, db_host, db_port, db_name)
     sequencer = Sequencer(db_conn)
 
+    print()
+
     jobs = [
         Thread(target=show_id, args=(sequencer,)),
         Thread(target=show_id, args=(sequencer,)),
@@ -38,6 +42,8 @@ def main():
 
     [j.start() for j in jobs]
     [j.join() for j in jobs]
+
+    print()
 
 
 if __name__ == '__main__':

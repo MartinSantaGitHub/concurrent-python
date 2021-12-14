@@ -1,9 +1,9 @@
 from typing import List
-from src.chinomax.model.cart import Cart
-from src.chinomax.model.item import Item
-from src.chinomax.model.products.milk import Milk
-from src.chinomax.model.products.oil import Oil
-from src.chinomax.model.products.rice import Rice
+from model.cart import Cart
+from model.item import Item
+from model.products.milk import Milk
+from model.products.oil import Oil
+from model.products.rice import Rice
 
 
 def get_carts_from_east_cashier_point() -> List[Cart]:

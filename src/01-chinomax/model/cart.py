@@ -1,6 +1,6 @@
 import random
 from typing import List
-from src.chinomax.model.item import Item
+from model.item import Item
 
 
 class Cart:

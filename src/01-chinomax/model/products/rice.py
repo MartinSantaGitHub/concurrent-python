@@ -1,4 +1,4 @@
-from src.chinomax.model.products.product import Product
+from model.products.product import Product
 
 PRICE = 15.50
 

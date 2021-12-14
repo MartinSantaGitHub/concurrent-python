@@ -38,15 +38,17 @@ class DatabaseConnection:
 
         return result
 
+    def __update_id(self, updated_id: int):
+        sql_update = f'UPDATE sequencer_id SET current_id = {updated_id};'
+
+        self.__execute(sql_update)
+
     def get_id(self):
         sql_get = 'SELECT current_id FROM sequencer_id LIMIT 1;'
 
         current_id = self.__execute(sql_get).fetchone()[0]
         next_id = current_id + 1
 
+        self.__update_id(next_id)
+
         return next_id
-
-    def update_id(self, updated_id: int):
-        sql_update = f'UPDATE sequencer_id SET current_id = {updated_id};'
-
-        self.__execute(sql_update)

@@ -1,7 +1,7 @@
 import random
 import time
 from threading import RLock
-from src.sequencer.utils.db_connection import DatabaseConnection
+from utils.db_connection import DatabaseConnection
 
 
 class Sequencer:
@@ -16,7 +16,5 @@ class Sequencer:
 
         with self.__semaphore:
             next_id = self.__db_conn.get_id()
-
-            self.__db_conn.update_id(next_id)
 
         return next_id

@@ -1,5 +1,5 @@
 from typing import List
-from src.chinomax.model.cashier_point import CashierPoint
+from model.cashier_point import CashierPoint
 
 
 class Supermarket:
