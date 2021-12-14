@@ -7,12 +7,12 @@ from src.chinomax.model.cashier_point_base import CashierPointBase
 class CashierPoint(CashierPointBase):
     def __init__(self, name: str):
         super().__init__(name)
-        self.__async_semaphore = Lock()
+        self.__semaphore = Lock()
 
     async def pay_cart_async(self, cart: Cart):
         delay = cart.get_delayed_seconds()
 
-        async with self.__async_semaphore:
+        async with self.__semaphore:
             await sleep(delay)
 
             self.add_incomes(cart.get_total_cart())

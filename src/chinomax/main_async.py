@@ -11,7 +11,6 @@ super_market_name = 'ChinoMax'
 
 def main():
     loop = asyncio.get_event_loop()
-
     tasks = []
     cashier_points = {'east_cp': CashierPoint(name='EAST'),
                       'north_cp': CashierPoint(name='NORTH'),

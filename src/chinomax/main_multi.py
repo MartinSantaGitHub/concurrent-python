@@ -18,12 +18,16 @@ def main():
 
     print(colorama.Fore.WHITE + messages.get_header_text(name=super_market_name), flush=True)
 
+    cashier_point_east = CashierPointBase(name='EAST')
+    cashier_point_north = CashierPointBase(name='NORTH')
+    cashier_point_west = CashierPointBase(name='WEST')
+
     tasks = [pool.apply_async(func=pay_cart,
-                              args=(CashierPointBase(name='EAST'), repository.get_carts_from_east_cashier_point())),
+                              args=(cashier_point_east, repository.get_carts_from_east_cashier_point())),
              pool.apply_async(func=pay_cart,
-                              args=(CashierPointBase(name='NORTH'), repository.get_carts_from_north_cashier_point())),
+                              args=(cashier_point_north, repository.get_carts_from_north_cashier_point())),
              pool.apply_async(func=pay_cart,
-                              args=(CashierPointBase(name='WEST'), [repository.get_cart_from_west_cashier_point()]))]
+                              args=(cashier_point_west, [repository.get_cart_from_west_cashier_point()]))]
 
     pool.close()
     pool.join()
@@ -36,6 +40,23 @@ def main():
     show_results(super_market)
 
     print(colorama.Fore.WHITE + f'Total time: {dt.total_seconds():.0f} seconds', flush=True)
+
+
+def pay_cart(cashier_point: CashierPointBase, carts: List[Cart]):
+    current_process = multiprocessing.current_process()
+
+    for cart in carts:
+        delay = cart.get_delayed_seconds()
+
+        time.sleep(delay)
+        cashier_point.add_incomes(cart.get_total_cart())
+        cashier_point.add_time(delay)
+
+        print(colorama.Fore.YELLOW + f'Cart Id: {current_process.pid}-{cart.get_id()} - '
+                                     f'Cashier Point: {cashier_point.get_name()} - '
+                                     f'Delayed: {delay}', flush=True)
+
+    return cashier_point
 
 
 def show_results(super_market: Supermarket):
@@ -57,23 +78,6 @@ def show_results(super_market: Supermarket):
     '''
 
     print(colorama.Fore.CYAN + message, flush=True)
-
-
-def pay_cart(cashier_point: CashierPointBase, carts: List[Cart]):
-    current_process = multiprocessing.current_process()
-
-    for cart in carts:
-        delay = cart.get_delayed_seconds()
-
-        time.sleep(delay)
-        cashier_point.add_incomes(cart.get_total_cart())
-        cashier_point.add_time(delay)
-
-        print(colorama.Fore.YELLOW + f'Cart Id: {current_process.pid}-{cart.get_id()} - '
-                                     f'Cashier Point: {cashier_point.get_name()} - '
-                                     f'Delayed: {delay}', flush=True)
-
-    return cashier_point
 
 
 if __name__ == '__main__':
