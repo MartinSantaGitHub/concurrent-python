@@ -1,4 +1,4 @@
-from model.products.product import Product
+from model.product import Product
 
 
 class Item:
