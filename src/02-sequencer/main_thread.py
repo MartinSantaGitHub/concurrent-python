@@ -30,17 +30,12 @@ def main():
     db_conn = DatabaseConnection(db_driver, db_user, db_password, db_host, db_port, db_name)
     #db_conn = DatabaseConnectionMock()
     sequencer = Sequencer(db_conn)
+    jobs = []
 
     print()
 
-    jobs = [
-        Thread(target=show_id, args=(sequencer,)),
-        Thread(target=show_id, args=(sequencer,)),
-        Thread(target=show_id, args=(sequencer,)),
-        Thread(target=show_id, args=(sequencer,)),
-        Thread(target=show_id, args=(sequencer,)),
-        Thread(target=show_id, args=(sequencer,))
-    ]
+    for _ in range(6):
+        jobs.append(Thread(target=show_id, args=(sequencer,), daemon=True))
 
     [j.start() for j in jobs]
     [j.join() for j in jobs]

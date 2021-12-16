@@ -16,7 +16,7 @@ def main():
     t0 = datetime.datetime.now()
 
     for _ in range(processor_count):
-        threads.append(Thread(target=hash_gen.get_hashes, args=(QUANTITY / processor_count,)))
+        threads.append(Thread(target=hash_gen.get_hashes, args=(QUANTITY / processor_count,), daemon=True))
 
     [t.start() for t in threads]
     [t.join() for t in threads]
