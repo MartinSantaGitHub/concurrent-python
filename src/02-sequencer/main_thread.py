@@ -4,7 +4,8 @@ import multiprocessing
 from dotenv import load_dotenv
 from threading import Thread, current_thread
 from model.sequencer import Sequencer
-from utils.db_connection import DatabaseConnection
+from utils.db_connection_base import DatabaseConnection
+from utils.db_connection_mock import DatabaseConnectionMock
 
 load_dotenv()
 
@@ -16,7 +17,7 @@ def show_id(seq: Sequencer):
 
     print(colorama.Fore.YELLOW + f'Process Id: {current_process.pid} - '
                                  f'Thread Id: {thread_id} - '
-                                 f'Current Id: {current_id}', flush=True)
+                                 f'Sequencer Id: {current_id}', flush=True)
 
 
 def main():
@@ -27,6 +28,7 @@ def main():
     db_host = os.environ["DB_HOST"]
     db_port = os.environ["DB_PORT"]
     db_conn = DatabaseConnection(db_driver, db_user, db_password, db_host, db_port, db_name)
+    #db_conn = DatabaseConnectionMock()
     sequencer = Sequencer(db_conn)
 
     print()

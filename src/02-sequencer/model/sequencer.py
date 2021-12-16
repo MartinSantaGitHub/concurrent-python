@@ -1,20 +1,15 @@
-import random
-import time
-from threading import RLock
-from utils.db_connection import DatabaseConnection
+from threading import Semaphore
+from utils.db_connection_base import DatabaseConnectionBase
 
 
 class Sequencer:
-    def __init__(self, db_connection: DatabaseConnection):
+    def __init__(self, db_connection: DatabaseConnectionBase):
         self.__db_conn = db_connection
-        self.__semaphore = RLock()
+        self.__semaphore = Semaphore(value=1)
 
     def get_id(self):
-        delay = random.randint(3, 9)
+        return self.__db_conn.get_id()
 
-        time.sleep(delay)
-
+    def get_id_safe(self):
         with self.__semaphore:
-            next_id = self.__db_conn.get_id()
-
-        return next_id
+            return self.__db_conn.get_id()
