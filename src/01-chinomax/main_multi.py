@@ -57,7 +57,7 @@ def pay_cart(cashier_point: CashierPointBase, carts: List[Cart]):
 
         print(colorama.Fore.YELLOW + f'Process Id: {current_process.pid} - '
                                      f'Thread Id: {thread_id} - '
-                                     f'Cart Id: {current_process.pid}-{cart.get_id()} - '
+                                     f'Cart Id: {cart.get_id()} - '
                                      f'Cashier Point: {cashier_point.get_name()} - '
                                      f'Delayed: {delay}', flush=True)
 

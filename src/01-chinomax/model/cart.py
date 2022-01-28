@@ -4,15 +4,15 @@ from model.item import Item
 
 
 class Cart:
-    __id = 0
+    __current_id = 0
 
     def __init__(self, items: List[Item]):
+        Cart.__current_id += 1
         self.__items = items
+        self.__id = Cart.__current_id
 
     def get_id(self):
-        Cart.__id += 1
-
-        return Cart.__id
+        return self.__id
 
     def get_delayed_seconds(self):
         return random.randint(3, 9)

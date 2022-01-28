@@ -22,11 +22,11 @@ class CashierPoint(CashierPointBase):
             self.add_incomes(cart.get_total_cart())
             self.add_time(delay)
 
-        print(colorama.Fore.YELLOW + f'Cart Id: {cart.get_id()} - '
-                                     f'Cashier Point: {self.get_name()} - '
-                                     f'Delayed: {delay}', flush=True)
-        # print(colorama.Fore.YELLOW + f'Process Id: {current_process.pid} - '
-        #                              f'Thread Id: {thread_id} - '
-        #                              f'Cart Id: {cart.get_id()} - '
+        # print(colorama.Fore.YELLOW + f'Cart Id: {cart.get_id()} - '
         #                              f'Cashier Point: {self.get_name()} - '
         #                              f'Delayed: {delay}', flush=True)
+        print(colorama.Fore.YELLOW + f'Process Id: {current_process.pid} - '
+                                     f'Thread Id: {thread_id} - '
+                                     f'Cart Id: {cart.get_id()} - '
+                                     f'Cashier Point: {self.get_name()} - '
+                                     f'Delayed: {delay}', flush=True)

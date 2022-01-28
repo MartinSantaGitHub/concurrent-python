@@ -13,7 +13,7 @@ load_dotenv()
 def show_id(seq: Sequencer):
     current_process = multiprocessing.current_process()
     thread_id = current_thread().ident
-    current_id = seq.get_id()
+    current_id = seq.get_id_safe()
 
     print(colorama.Fore.YELLOW + f'Process Id: {current_process.pid} - '
                                  f'Thread Id: {thread_id} - '
