@@ -1,5 +1,5 @@
 from threading import Semaphore
-from utils.db_connection_base import DatabaseConnectionBase
+from utils.db_connection import DatabaseConnectionBase
 
 
 class Sequencer:

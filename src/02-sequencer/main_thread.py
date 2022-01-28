@@ -4,7 +4,7 @@ import multiprocessing
 from dotenv import load_dotenv
 from threading import Thread, current_thread
 from model.sequencer import Sequencer
-from utils.db_connection_base import DatabaseConnection
+from utils.db_connection_db import DatabaseConnection
 from utils.db_connection_mock import DatabaseConnectionMock
 
 load_dotenv()
